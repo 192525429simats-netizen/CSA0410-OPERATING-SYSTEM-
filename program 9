@@ -1,0 +1,19 @@
+#include <stdio.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+#include <string.h>
+
+int main() {
+    int shmid;
+    char *msg;
+
+    shmid = shmget(1234, 100, 0666 | IPC_CREAT); // Create shared memory
+    msg = (char *)shmat(shmid, NULL, 0);         // Attach
+
+    strcpy(msg, "Hello from Shared Memory!");
+
+    printf("Message Written: %s\n", msg);
+
+    shmdt(msg); // Detach
+    return 0;
+}
