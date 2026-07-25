@@ -1,0 +1,62 @@
+#include <stdio.h>
+
+int main()
+{
+    int block[5] = {100, 500, 200, 300, 600};
+    int process[4] = {212, 417, 112, 426};
+    int i, j;
+
+    // First Fit
+    printf("First Fit\n");
+    int temp1[5] = {100, 500, 200, 300, 600};
+    for(i = 0; i < 4; i++)
+    {
+        for(j = 0; j < 5; j++)
+        {
+            if(temp1[j] >= process[i])
+            {
+                printf("Process %d -> Block %d\n", i + 1, j + 1);
+                temp1[j] -= process[i];
+                break;
+            }
+        }
+    }
+
+    // Best Fit
+    printf("\nBest Fit\n");
+    int temp2[5] = {100, 500, 200, 300, 600};
+    for(i = 0; i < 4; i++)
+    {
+        int best = -1;
+        for(j = 0; j < 5; j++)
+        {
+            if(temp2[j] >= process[i] && (best == -1 || temp2[j] < temp2[best]))
+                best = j;
+        }
+        if(best != -1)
+        {
+            printf("Process %d -> Block %d\n", i + 1, best + 1);
+            temp2[best] -= process[i];
+        }
+    }
+
+    // Worst Fit
+    printf("\nWorst Fit\n");
+    int temp3[5] = {100, 500, 200, 300, 600};
+    for(i = 0; i < 4; i++)
+    {
+        int worst = -1;
+        for(j = 0; j < 5; j++)
+        {
+            if(temp3[j] >= process[i] && (worst == -1 || temp3[j] > temp3[worst]))
+                worst = j;
+        }
+        if(worst != -1)
+        {
+            printf("Process %d -> Block %d\n", i + 1, worst + 1);
+            temp3[worst] -= process[i];
+        }
+    }
+
+    return 0;
+}
